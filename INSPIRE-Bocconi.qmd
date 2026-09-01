@@ -6,7 +6,7 @@ title-slide-attributes:
   data-background-position: 75% 25%
 format: 
   revealjs:
-    theme: _extensions/grantmcdermott/clean/clean.scss
+    theme: [_extensions/grantmcdermott/clean/clean.scss, custom.scss]
     chalkboard: false
     logo: img/jpeicon.png
     footer: "[Reproducibility @ INSPIRE Bocconi](https://JPE-Reproducibility.github.io/INSPIRE-Bocconi/)"
@@ -20,7 +20,7 @@ author:
     email: jpe.dataeditor@gmail.com
     affiliations: Uni Turin, Collegio Carlo Alberto, JPE Data Editor
 subtitle: "[INSPIRE Bocconi](https://JPE-Reproducibility.github.io/INSPIRE-Bocconi/)"
-date: last-modified
+date: 2026-09-02
 date-format: "D MMMM, YYYY"
 ---
 
@@ -30,7 +30,23 @@ date-format: "D MMMM, YYYY"
 1. [10 simple rules to Reproducibility](https://zenodo.org/records/8117361) compiled by the Econ Data Editors.
 2. The `README` file.
 3. Some Reproducibility Best Practices.
-4. Let's start a reproducible research project!
+4. AI and Reproducibility?
+5. Let's start a reproducible research project!
+
+
+::: {.fragment}
+
+::: {.callout-tip}
+
+# Your Contribution
+
+* Large value added of this event comes from your questions.
+* Let's discuss all of this!
+
+:::
+
+:::
+
 
 # What Is Required From Authors? 🫵 {background-color="#40666e"}
 
@@ -282,6 +298,8 @@ Example?
 
 ::: {.fragment}
 ::: {.callout-note}
+# No Size Fits All
+
 There is no unique best way to organize your project: Make it simple, intuitive and helpful.
 :::
 :::
@@ -684,9 +702,10 @@ renv::restore()  # checkout
 
 ## Reproducible code
 
-::: {.callout-note}
-Such mechanisms can reduce version conflicts amongst your dependencies. To the extent that all versions of those dependencies are still available, this guarantees a stable computing environment.
-:::
+
+* Such mechanisms can reduce version conflicts amongst your dependencies. 
+* To the extent that all versions of those dependencies are still available, this guarantees a stable computing environment.
+
 
 
 
@@ -743,7 +762,80 @@ Such mechanisms can reduce version conflicts amongst your dependencies. To the e
 * How do researchers use AI?
 * Does AI create different reproducibility concerns?
 * My paper on this: [Randomness in Large Language Models](https://arxiv.org/abs/2607.24372)
-* Slides on that paper *[to be done]*
+* [Slides on that paper](https://floswald.github.io/publication/llm-randomness/)
+
+## How a Model Picks the Next Word
+
+The model writes one token at a time. Each candidate for the next token gets a probability.
+
+![](img/llm-picks-next.png){fig-align="center" width="85%"}
+
+* A greedy rule always takes the top scoring token.
+* Sampling draws instead, which makes text less repetitive.
+* Later scores depend on the tokens already written.
+
+::: {.callout-important}
+One different token early on can change the whole answer.
+:::
+
+## Four Sources of Non-Determinism
+
+::: {.incremental}
+1. **Deliberate sampling.** The next token is drawn from the score distribution, scaled by a temperature $T$. Setting $T=0$ goes greedy and costs nothing — but several 2026 reasoning models no longer expose the parameter.
+2. **Silent model updates.** The provider swaps the weights behind an unchanged public name. Accuracy on one prime number task fell from 84% to 51% within three months.
+3. **Floating point rounding.** Finite precision arithmetic is not associative, so the *order of operations* changes the answer. Server load, hardware and model splitting all change that order.
+4. **Expert routing.** In mixture-of-experts models, per-expert capacity is limited within a batch — so whether your token reaches its preferred expert depends on *other users' requests*.
+:::
+
+
+## What Researchers Can Control
+
+::: {.tight-table .tt-sources}
+
+| What differs | In plain terms | Survives $T=0$? | Local | API |
+| ---- | ------------- | :----: | :---: | :---: |
+| *Deliberate randomness* | | | | |
+| Sampling | Words are drawn at random from the score distribution. | **no** | full | some models |
+| *The model is not the same model* | | | | |
+| Silent updates | The provider swaps the model behind an unchanged name. | yes | full | none |
+| *Same arithmetic, different order* | | | | |
+| Server load | Other prompts arriving together change how work is divided. | yes | full | none |
+| Hardware | A different chip or library divides the arithmetic differently. | yes | full | none |
+| Model splitting | Partial results from several chips recombine in a varying order. | yes | partial | none |
+| *A different part of the model ran* | | | | |
+| Expert routing | Other users take the places, so your prompt gets its second choice. | yes | partial | none |
+
+::: {.tight-table-caption}
+Differences between two runs of an identical prompt. *Local* means open weights on the user's own hardware, *API* means the provider's infrastructure.
+:::
+
+:::
+
+## What Authors Need to Report
+
+::: {.tight-table .tt-report}
+
+| Item | In the paper | In the package |
+| --------------- | ---------- | ---------- |
+| *What the model was* | | |
+| Name, exact version, provider, access route, query date | Must have | Must have (plus stack, if local) |
+| Archived open weights, or their hash | --- | Good to have |
+| Training data cutoff, against the sample period | Must have (if known) | --- |
+| *How it was run* | | |
+| Verbatim prompts, system messages, examples | Must have (in an appendix) | Must have |
+| Generation parameters, defaults flagged as such | Must have (headline settings) | Must have (full configuration) |
+| *What it produced* | | |
+| All inputs and raw outputs, every run, before processing | --- | Must have |
+| Variability report: draws, agreement, sensitivity | Good to have | --- |
+| *What it cost* | | |
+| Token counts, monetary cost, runtime | --- | Must have |
+
+::: {.tight-table-caption}
+Reporting items for model generated variables. Must have items are essentially free to provide.
+:::
+
+:::
+
 
 # Break ☕️ 🍰 {background-color="#40666e"}
 

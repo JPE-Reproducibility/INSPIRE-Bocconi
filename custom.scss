@@ -1,0 +1,87 @@
+/*-- scss:rules --*/
+
+// Dense tables that have to fit on a single slide.
+// Wrap the table in a ::: {.tight-table} div, plus a width variant
+// (.tt-sources for the 5-column table, .tt-report for the 3-column one).
+
+$booktabs-rule: #7a7a7a;
+$group-header: #005493; // sciblue, matching the paper's Beamer palette
+
+.reveal .tight-table table {
+  font-size: 0.62em;
+  line-height: 1.25;
+  width: 100%;
+  table-layout: fixed;
+  margin: 0.3em auto;
+  border-collapse: collapse;
+}
+
+.reveal .tight-table table th,
+.reveal .tight-table table td {
+  padding: 0.18em 0.45em;
+  vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+// Markdown wraps cell content in <p>; kill the default margins.
+.reveal .tight-table table p {
+  margin: 0;
+}
+
+// booktabs look: rules only at the top, under the header, and at the bottom.
+.reveal .tight-table table td {
+  border: none;
+}
+
+.reveal .tight-table table thead th {
+  border: none;
+  border-bottom: 1px solid $booktabs-rule;
+  font-weight: 700;
+}
+
+.reveal .tight-table table {
+  border-top: 1.5px solid $booktabs-rule;
+  border-bottom: 1.5px solid $booktabs-rule;
+}
+
+// Group-header rows: the italic \multicolumn lines from the LaTeX source.
+// No rule underneath, coloured, with a little air above.
+.reveal .tight-table table tbody tr:has(td em) td {
+  color: $group-header;
+  font-style: italic;
+  border: none;
+  padding-top: 0.6em;
+  padding-bottom: 0.05em;
+}
+
+.reveal .tight-table table tbody tr:first-child:has(td em) td {
+  padding-top: 0.25em;
+}
+
+// Column widths.
+.reveal .tt-sources table {
+  // Five columns and more wrapping than .tt-report, so it needs to run smaller.
+  font-size: 0.55em;
+
+  th:nth-child(1), td:nth-child(1) { width: 15%; }
+  th:nth-child(2), td:nth-child(2) { width: 39%; }
+  th:nth-child(3), td:nth-child(3) { width: 16%; }
+  th:nth-child(4), td:nth-child(4) { width: 13%; }
+  th:nth-child(5), td:nth-child(5) { width: 17%; }
+}
+
+.reveal .tt-report table {
+  th:nth-child(1), td:nth-child(1) { width: 46%; }
+  th:nth-child(2), td:nth-child(2) { width: 27%; }
+  th:nth-child(3), td:nth-child(3) { width: 27%; }
+}
+
+// Caption line under a tight table.
+.reveal .tight-table-caption {
+  font-size: 0.48em;
+  line-height: 1.25;
+  margin-top: 0.5em;
+  opacity: 0.8;
+}
