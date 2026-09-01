@@ -95,7 +95,7 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="INSPIRE-Bocconi_files/libs/revealjs/dist/theme/quarto-1bd6f83f21464c15f05bbb993736ec46.css">
+  <link rel="stylesheet" href="INSPIRE-Bocconi_files/libs/revealjs/dist/theme/quarto-41d9135458279e29bdb7b1ca5e50fdf7.css">
   <link href="INSPIRE-Bocconi_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="INSPIRE-Bocconi_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="INSPIRE-Bocconi_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,7 +210,7 @@ Florian Oswald <a href="https://orcid.org/0000-0001-7737-2038" class="quarto-tit
     </div>
 </div>
 
-  <p class="date">1 September, 2026</p>
+  <p class="date">2 September, 2026</p>
 </section>
 <section id="agenda" class="slide level2">
 <h2>Agenda</h2>
@@ -219,8 +219,27 @@ Florian Oswald <a href="https://orcid.org/0000-0001-7737-2038" class="quarto-tit
 <li><a href="https://zenodo.org/records/8117361">10 simple rules to Reproducibility</a> compiled by the Econ Data Editors.</li>
 <li>The <code>README</code> file.</li>
 <li>Some Reproducibility Best Practices.</li>
+<li>AI and Reproducibility?</li>
 <li>Let’s start a reproducible research project!</li>
 </ol>
+<div class="fragment">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Your Contribution</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Large value added of this event comes from your questions.</li>
+<li>Let’s discuss all of this!</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section>
 <section id="what-is-required-from-authors" class="title-slide slide level1 center" data-background-color="#40666e">
@@ -443,7 +462,7 @@ Florian Oswald <a href="https://orcid.org/0000-0001-7737-2038" class="quarto-tit
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Note</strong></p>
+<p><strong>No Size Fits All</strong></p>
 </div>
 <div class="callout-content">
 <p>There is no unique best way to organize your project: Make it simple, intuitive and helpful.</p>
@@ -1022,19 +1041,10 @@ Florian Oswald <a href="https://orcid.org/0000-0001-7737-2038" class="quarto-tit
 </section>
 <section id="reproducible-code-9" class="slide level2">
 <h2>Reproducible code</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>Such mechanisms can reduce version conflicts amongst your dependencies. To the extent that all versions of those dependencies are still available, this guarantees a stable computing environment.</p>
-</div>
-</div>
-</div>
+<ul>
+<li>Such mechanisms can reduce version conflicts amongst your dependencies.</li>
+<li>To the extent that all versions of those dependencies are still available, this guarantees a stable computing environment.</li>
+</ul>
 </section></section>
 <section>
 <section id="data" class="title-slide slide level1 center" data-background-color="#40666e">
@@ -1115,8 +1125,222 @@ Florian Oswald <a href="https://orcid.org/0000-0001-7737-2038" class="quarto-tit
 <li>How do researchers use AI?</li>
 <li>Does AI create different reproducibility concerns?</li>
 <li>My paper on this: <a href="https://arxiv.org/abs/2607.24372">Randomness in Large Language Models</a></li>
-<li>Slides on that paper <em>[to be done]</em></li>
+<li><a href="https://floswald.github.io/publication/llm-randomness/">Slides on that paper</a></li>
 </ul>
+</section>
+<section id="how-a-model-picks-the-next-word" class="slide level2">
+<h2>How a Model Picks the Next Word</h2>
+<p>The model writes one token at a time. Each candidate for the next token gets a probability.</p>
+
+<img data-src="img/llm-picks-next.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><ul>
+<li>A greedy rule always takes the top scoring token.</li>
+<li>Sampling draws instead, which makes text less repetitive.</li>
+<li>Later scores depend on the tokens already written.</li>
+</ul>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>One different token early on can change the whole answer.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="four-sources-of-non-determinism" class="slide level2">
+<h2>Four Sources of Non-Determinism</h2>
+<ol type="1">
+<li class="fragment"><strong>Deliberate sampling.</strong> The next token is drawn from the score distribution, scaled by a temperature <span class="math inline">\(T\)</span>. Setting <span class="math inline">\(T=0\)</span> goes greedy and costs nothing — but several 2026 reasoning models no longer expose the parameter.</li>
+<li class="fragment"><strong>Silent model updates.</strong> The provider swaps the weights behind an unchanged public name. Accuracy on one prime number task fell from 84% to 51% within three months.</li>
+<li class="fragment"><strong>Floating point rounding.</strong> Finite precision arithmetic is not associative, so the <em>order of operations</em> changes the answer. Server load, hardware and model splitting all change that order.</li>
+<li class="fragment"><strong>Expert routing.</strong> In mixture-of-experts models, per-expert capacity is limited within a batch — so whether your token reaches its preferred expert depends on <em>other users’ requests</em>.</li>
+</ol>
+</section>
+<section id="what-researchers-can-control" class="slide level2">
+<h2>What Researchers Can Control</h2>
+<div class="tight-table tt-sources">
+<table class="caption-top">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 39%">
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>What differs</th>
+<th>In plain terms</th>
+<th style="text-align: center;">Survives <span class="math inline">\(T=0\)</span>?</th>
+<th style="text-align: center;">Local</th>
+<th style="text-align: center;">API</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Deliberate randomness</em></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>Sampling</td>
+<td>Words are drawn at random from the score distribution.</td>
+<td style="text-align: center;"><strong>no</strong></td>
+<td style="text-align: center;">full</td>
+<td style="text-align: center;">some models</td>
+</tr>
+<tr class="odd">
+<td><em>The model is not the same model</em></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>Silent updates</td>
+<td>The provider swaps the model behind an unchanged name.</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">full</td>
+<td style="text-align: center;">none</td>
+</tr>
+<tr class="odd">
+<td><em>Same arithmetic, different order</em></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>Server load</td>
+<td>Other prompts arriving together change how work is divided.</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">full</td>
+<td style="text-align: center;">none</td>
+</tr>
+<tr class="odd">
+<td>Hardware</td>
+<td>A different chip or library divides the arithmetic differently.</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">full</td>
+<td style="text-align: center;">none</td>
+</tr>
+<tr class="even">
+<td>Model splitting</td>
+<td>Partial results from several chips recombine in a varying order.</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">partial</td>
+<td style="text-align: center;">none</td>
+</tr>
+<tr class="odd">
+<td><em>A different part of the model ran</em></td>
+<td></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td>Expert routing</td>
+<td>Other users take the places, so your prompt gets its second choice.</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">partial</td>
+<td style="text-align: center;">none</td>
+</tr>
+</tbody>
+</table>
+<div class="tight-table-caption">
+<p>Differences between two runs of an identical prompt. <em>Local</em> means open weights on the user’s own hardware, <em>API</em> means the provider’s infrastructure.</p>
+</div>
+</div>
+</section>
+<section id="what-authors-need-to-report" class="slide level2">
+<h2>What Authors Need to Report</h2>
+<div class="tight-table tt-report">
+<table class="caption-top" style="width:100%;">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 28%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>In the paper</th>
+<th>In the package</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>What the model was</em></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Name, exact version, provider, access route, query date</td>
+<td>Must have</td>
+<td>Must have (plus stack, if local)</td>
+</tr>
+<tr class="odd">
+<td>Archived open weights, or their hash</td>
+<td>—</td>
+<td>Good to have</td>
+</tr>
+<tr class="even">
+<td>Training data cutoff, against the sample period</td>
+<td>Must have (if known)</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><em>How it was run</em></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Verbatim prompts, system messages, examples</td>
+<td>Must have (in an appendix)</td>
+<td>Must have</td>
+</tr>
+<tr class="odd">
+<td>Generation parameters, defaults flagged as such</td>
+<td>Must have (headline settings)</td>
+<td>Must have (full configuration)</td>
+</tr>
+<tr class="even">
+<td><em>What it produced</em></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>All inputs and raw outputs, every run, before processing</td>
+<td>—</td>
+<td>Must have</td>
+</tr>
+<tr class="even">
+<td>Variability report: draws, agreement, sensitivity</td>
+<td>Good to have</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><em>What it cost</em></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Token counts, monetary cost, runtime</td>
+<td>—</td>
+<td>Must have</td>
+</tr>
+</tbody>
+</table>
+<div class="tight-table-caption">
+<p>Reporting items for model generated variables. Must have items are essentially free to provide.</p>
+</div>
+</div>
 </section></section>
 <section id="break" class="title-slide slide level1 center" data-background-color="#40666e">
 <h1>Break ☕️ 🍰</h1>
