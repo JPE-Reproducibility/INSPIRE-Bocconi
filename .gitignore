@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+/.quarto/
+*.html
+INSPIRE-Bocconi_files/
+INSPIRE-Bocconi.html
+/_site/
+
+**/*.quarto_ipynb
