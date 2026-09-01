@@ -736,7 +736,14 @@ Such mechanisms can reduce version conflicts amongst your dependencies. To the e
 
 
 
-# AI {background-color="#40666e"}
+# AI 🤖 {background-color="#40666e"}
+
+## AI and Reproducibility
+
+* How do researchers use AI?
+* Does AI create different reproducibility concerns?
+* My paper on this: [Randomness in Large Language Models](https://arxiv.org/abs/2607.24372)
+* Slides on that paper *[to be done]*
 
 # Break ☕️ 🍰 {background-color="#40666e"}
 
