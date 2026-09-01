@@ -10,7 +10,6 @@
   <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Florian Oswald">
-  <meta name="author" content="Elian Giordano">
   <title>Reproducibility Workshop</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -207,17 +206,6 @@ Florian Oswald <a href="https://orcid.org/0000-0001-7737-2038" class="quarto-tit
 </div>
         <p class="quarto-title-affiliation">
             Uni Turin, Collegio Carlo Alberto, JPE Data Editor
-          </p>
-    </div>
-<div class="quarto-title-author">
-<div class="quarto-title-author-name">
-Elian Giordano 
-</div>
-<div class="quarto-title-author-email">
-<a href="mailto:eliangiordano@ub.edu">eliangiordano@ub.edu</a>
-</div>
-        <p class="quarto-title-affiliation">
-            Institut d’Economia de Barcelona
           </p>
     </div>
 </div>
@@ -1115,182 +1103,6 @@ Elian Giordano
 <li>have a dedicated output folder <em>which you delete frequently</em></li>
 <li>version output: during revisions, create separate locations for output, <code>rev1</code>, <code>rev2</code> etc, so you know exactly what version of code made which output.</li>
 </ul>
-</section></section>
-<section>
-<section id="why-does-this-matter-elian-taking-over" class="title-slide slide level1 center" data-background-color="#40666e">
-<h1>Why Does This Matter? 🌍 <br> Elian Taking Over</h1>
-
-</section>
-<section id="a-growing-professional-market" class="slide level2">
-<h2>A Growing Professional Market</h2>
-<ul>
-<li>The number of journals requiring replication is growing — and so are the teams enforcing it.</li>
-<li>Data editor offices and dedicated replicator teams are actively being set up at major journals right now.</li>
-</ul>
-<div class="fragment">
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Relevant for Your Academic Career</strong></p>
-</div>
-<div class="callout-content">
-<p>Most supervisors now require RAs to build replication packages alongside their research. The skills covered today — Stata, R, version control, documentation — are exactly what that work demands.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="the-ai-era-raises-the-stakes" class="slide level2">
-<h2>The AI Era Raises the Stakes</h2>
-<ul>
-<li>Large language models can produce <em>plausible-looking</em> results: tables, coefficients, even entire reference lists.</li>
-</ul>
-<div class="fragment">
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>The Hallucination Problem</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li><strong>Fabricated citations</strong> — papers with real-sounding titles that simply do not exist.</li>
-<li><strong>Made-up statistics</strong> — numbers consistent with the narrative but never actually computed.</li>
-<li><strong>No audit trail</strong> — errors propagate silently; one bad paper can accumulate hundreds of downstream citations.</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="fragment">
-<p>👉 Replicators are the human check that automated tools cannot replace.</p>
-</div>
-<div class="fragment">
-<p>Not yet. 😬</p>
-</div>
-</section></section>
-<section>
-<section id="inside-the-jpe-replication-process" class="title-slide slide level1 center" data-background-color="#40666e">
-<h1>Inside the JPE Replication Process 🔬</h1>
-
-</section>
-<section id="the-sandbox-environment" class="slide level2">
-<h2>The Sandbox Environment</h2>
-<div class="columns">
-<div class="column" style="width:55%;">
-<p>We receive the author’s replication package and run it <strong>from scratch</strong> in <a href="https://nuvolos.cloud">Nuvolos</a> — a cloud-based Linux environment.</p>
-<div class="fragment">
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Clean Slate Principle</strong></p>
-</div>
-<div class="callout-content">
-<p>No pre-installed libraries. No author’s personal setup. No shortcuts.</p>
-<p>If the package does not reproduce on a fresh machine, it does not replicate.</p>
-</div>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:1%;">
-
-</div><div class="column" style="width:39%;">
-<div class="fragment">
-<p>Why Nuvolos?</p>
-<ul>
-<li class="fragment">Standardised Linux environment for all replicators</li>
-<li class="fragment">Some packages take <strong>over a day</strong> to run — cloud compute is essential</li>
-<li class="fragment">Exposes path issues (<code>\</code> vs <code>/</code>) and missing dependencies immediately</li>
-</ul>
-</div>
-</div></div>
-</section>
-<section id="documentation-audit" class="slide level2">
-<h2>Documentation Audit</h2>
-<p>Before running a single line of code, we audit the <strong>README</strong>:</p>
-<ol type="1">
-<li class="fragment"><strong>Data statement</strong> — are all data sources identified? Are access instructions clear, and do redistribution licenses allow sharing?</li>
-<li class="fragment"><strong>Computing requirements</strong> — OS, software, exact versions. Is this feasible to replicate?</li>
-<li class="fragment"><strong>Step-by-step workflow</strong> — can an advanced graduate student follow this without contacting the authors?</li>
-</ol>
-<div class="fragment">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>The README is the contract between the author and the replicator. Vague language here is a red flag before we even open the data.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="verification" class="slide level2">
-<h2>Verification</h2>
-<p>The final step: cross-check <strong>every</strong> piece of output against the published manuscript.</p>
-<div class="columns">
-<div class="column" style="width:45%;">
-<ul>
-<li class="fragment">Every <strong>figure</strong> — layout, axis labels, values</li>
-<li class="fragment">Every <strong>table</strong> — all cells, standard errors, significance stars</li>
-<li class="fragment">Every <strong>in-text number</strong> — percentages, averages, test statistics</li>
-</ul>
-</div><div class="column" style="width:1%;">
-
-</div><div class="column" style="width:49%;">
-<div class="fragment">
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>The Standard</strong></p>
-</div>
-<div class="callout-content">
-<p><em>Exactly equal</em> means exactly equal. 😬</p>
-<p>Not “approximately right”. Not “the same sign”. Not “close enough given rounding”.</p>
-</div>
-</div>
-</div>
-</div>
-</div></div>
-</section>
-<section id="what-we-typically-find" class="slide level2">
-<h2>What We Typically Find</h2>
-<ul>
-<li class="fragment"><strong>Missing or incorrect data citations</strong> — the source is mentioned in the paper but not in the README, or the link is broken.</li>
-<li class="fragment"><strong>Tables that do not match</strong> — numbers in the manuscript differ from what the code actually produces.</li>
-<li class="fragment"><strong>Code that runs but gives different results</strong> — often due to an undeclared package version or a platform-specific path.</li>
-<li class="fragment"><strong>Undocumented manual steps</strong> — an intermediate file was created by hand and never mentioned in the README.</li>
-</ul>
-<div class="fragment">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>These are not rare edge cases — they are the most common reasons a replication is returned to the authors.</p>
-</div>
-</div>
-</div>
-</div>
 </section></section>
 <section id="break" class="title-slide slide level1 center" data-background-color="#40666e">
 <h1>Break ☕️ 🍰</h1>
